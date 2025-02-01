@@ -22,8 +22,8 @@ This project is a FastAPI-based service designed to handle payload transformatio
 1. **Clone the Repository:**
 
    ```bash
-   git clone https://github.com/razibaig/cache-service.git
-   cd cache-service
+   git clone https://github.com/yourusername/your-repo-name.git
+   cd your-repo-name
    ```
 
 2. **Create a Virtual Environment:**
@@ -74,14 +74,72 @@ FastAPI provides interactive API documentation:
 - **Swagger UI**: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
 - **ReDoc**: [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc)
 
-## Endpoints
+## API Endpoints
 
-- **POST /payload**: Create a new payload.
-  - Request Body: `PayloadRequest` (list_1, list_2)
-  - Response: `PayloadResponse` (output)
+### 1. Create Payload
 
-- **GET /payload/{id}**: Retrieve a payload by ID.
-  - Response: `PayloadResponse` (output)
+**Endpoint**: `POST /payload`
+
+**Description**: This endpoint creates a new payload by transforming and interleaving two lists of strings. It returns an identifier for the generated payload, along with a flag indicating whether the result was cached.
+
+**Request Example**:
+
+```bash
+curl -X POST "http://127.0.0.1:8000/payload" \
+     -H "Content-Type: application/json" \
+     -d '{
+           "list_1": ["first string", "second string", "third string"],
+           "list_2": ["other string", "another string", "last string"]
+         }'
+```
+
+**Explanation**:
+- **Method**: `POST`
+- **URL**: `http://127.0.0.1:8000/payload`
+- **Headers**: `Content-Type: application/json` specifies that the request body is in JSON format.
+- **Body**: A JSON object containing `list_1` and `list_2`, which are the two lists of strings to be transformed and interleaved.
+- **Expected Response**: A JSON object containing:
+  - `id`: The identifier of the newly created payload.
+  - `cached`: A boolean flag indicating whether the output was retrieved from the cache.
+  - `output`: The transformed and interleaved output.
+
+**Response Example**:
+
+```json
+{
+    "id": 1,
+    "cached": false,
+    "output": "FIRST STRING, OTHER STRING, SECOND STRING, ANOTHER STRING, THIRD STRING, LAST STRING"
+}
+```
+
+### 2. Retrieve Payload
+
+**Endpoint**: `GET /payload/{id}`
+
+**Description**: This endpoint retrieves a payload by its ID and returns the output of the payload.
+
+**Request Example**:
+
+```bash
+curl -X GET "http://127.0.0.1:8000/payload/{id}"
+```
+
+- Replace `{id}` with the actual ID obtained from the `POST /payload` response.
+
+**Explanation**:
+- **Method**: `GET`
+- **URL**: `http://127.0.0.1:8000/payload/{id}`
+- **Expected Response**: A JSON object containing:
+  - `output`: The transformed and interleaved output of the payload.
+
+**Response Example**:
+
+```json
+{
+    "output": "FIRST STRING, OTHER STRING, SECOND STRING, ANOTHER STRING, THIRD STRING, LAST STRING"
+}
+```
 
 ## Testing
 
