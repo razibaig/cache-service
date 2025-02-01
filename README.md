@@ -22,8 +22,8 @@ This project is a FastAPI-based service designed to handle payload transformatio
 1. **Clone the Repository:**
 
    ```bash
-   git clone https://github.com/yourusername/your-repo-name.git
-   cd your-repo-name
+   git clone https://github.com/razibaig/cache-service.git
+   cd cache-service
    ```
 
 2. **Create a Virtual Environment:**
